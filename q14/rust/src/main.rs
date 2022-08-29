@@ -4,17 +4,17 @@ fn main() {
     // if n is even n/2
     // if n is odd 3*n + 1
     // Count the length of the chain
-    //
-    collatz_no_cache();
-    hash_cache();
+    let max_attempts = 100000000;
+    let attempts: Vec<i32> = (1..max_attempts).collect(); 
+    collatz_no_cache(&attempts);
+    hash_cache(attempts, max_attempts);
 }
 
-fn hash_cache() {
-    let attempts: Vec<i32> = (1..1000000).collect();
+fn hash_cache(attempts:Vec<i32>, capacity:i32) {
     let now = Instant::now();
     let mut max_iterations = 0;
     let mut max_val = 0;
-    let mut cache: HashMap<i64, i32> = HashMap::new();
+    let mut cache: HashMap<i64, i32> = HashMap::with_capacity(capacity.try_into().unwrap());
     for att in attempts {
         let iter = collatz_hash(att, &cache);
         cache.insert(att.into(), iter); 
@@ -47,15 +47,14 @@ fn collatz_hash(num:i32, cache:&HashMap<i64, i32>) -> i32 {
     return iterations;
 }
 
-fn collatz_no_cache() {
-    let attempts: Vec<i32> = (1..1000000).collect();
+fn collatz_no_cache(attempts:&Vec<i32>) {
     let now = Instant::now();
     let mut max_iterations = 0;
     let mut max_val = 0;
     for att in attempts {
-        let iter = collatz(att);
+        let iter = collatz(*att);
         if iter > max_iterations {
-            max_val = att;
+            max_val = *att;
             max_iterations = iter;
         }
     }
