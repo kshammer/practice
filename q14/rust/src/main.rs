@@ -4,22 +4,23 @@ fn main() {
     // if n is even n/2
     // if n is odd 3*n + 1
     // Count the length of the chain
-    let max_attempts = 100000000;
-    let attempts: Vec<i32> = (1..max_attempts).collect(); 
+    let max_attempts = 1000000;
+    let attempts: Vec<u64> = (1..max_attempts).collect(); 
     collatz_no_cache(&attempts);
-    hash_cache(attempts, max_attempts);
+    hash_cache(&attempts, max_attempts.try_into().unwrap());
 }
 
-fn hash_cache(attempts:Vec<i32>, capacity:i32) {
-    let now = Instant::now();
+fn hash_cache(attempts:&Vec<u64>, capacity:usize) {
     let mut max_iterations = 0;
-    let mut max_val = 0;
-    let mut cache: HashMap<i64, i32> = HashMap::with_capacity(capacity.try_into().unwrap());
+    let mut max_val:u64 = 0;
+    let mut cache: HashMap<u64, u64> = HashMap::with_capacity(capacity);
+    
+    let now = Instant::now();
     for att in attempts {
-        let iter = collatz_hash(att, &cache);
-        cache.insert(att.into(), iter); 
+        let iter = collatz_hash(*att, &cache);
+        cache.insert(*att, iter); 
         if iter > max_iterations {
-            max_val = att;
+            max_val = *att;
             max_iterations = iter;
         }
     }
@@ -29,9 +30,9 @@ fn hash_cache(attempts:Vec<i32>, capacity:i32) {
 
 }
 
-fn collatz_hash(num:i32, cache:&HashMap<i64, i32>) -> i32 {
+fn collatz_hash(num:u64, cache:&HashMap<u64, u64>) -> u64 {
     let mut iterations = 1;
-    let mut n: i64 = num.into();
+    let mut n: u64 = num.into();
     while n != 1 {
         if cache.contains_key(&n){
             return iterations + cache.get(&n).unwrap() - 1; 
@@ -47,7 +48,7 @@ fn collatz_hash(num:i32, cache:&HashMap<i64, i32>) -> i32 {
     return iterations;
 }
 
-fn collatz_no_cache(attempts:&Vec<i32>) {
+fn collatz_no_cache(attempts:&Vec<u64>) {
     let now = Instant::now();
     let mut max_iterations = 0;
     let mut max_val = 0;
@@ -66,9 +67,9 @@ fn collatz_no_cache(attempts:&Vec<i32>) {
     );
 }
 
-fn collatz(num: i32) -> i32 {
+fn collatz(num: u64) -> u64 {
     let mut iterations = 1;
-    let mut n: i64 = num.into();
+    let mut n:u64 = num.into();
     while n != 1 {
         if n % 2 == 0 {
             n = n / 2;
