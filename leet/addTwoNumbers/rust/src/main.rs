@@ -17,57 +17,50 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        if l1.is_none() && l2.is_none() {
-            return None;
-        }
-        let mut carry = 0;
+        let mut one = l1.unwrap();
+        let mut two = l2.unwrap();
+        let mut root = ListNode::new(0);
 
-        let first = Box::new(ListNode::new(0));
+        let mut res = Solution::make_node(one.val + two.val);
+        root.next.get_or_insert(Box::new(res.0));
 
-        while l1.is_some() || l2.is_some() {
-            let val1 = match l1 {
-                Some(ref x) => x.val,
-                None => 0,
-            };
-            let val2 = match l2 {
-                Some(ref x) => x.val,
-                None => 0,
-            };
-            let mut sum = val1 + val2 + carry;
-            if sum >= 10 {
-                sum = sum % 10;
-                carry = 1;
+        let mut curr = &mut root.next;
+
+        while one.next.is_some() || two.next.is_some() {
+            match curr {
+                None => break,
+                Some(now) => {
+                    one = one.next.or(Some(Box::new(ListNode::new(0)))).unwrap();
+                    two = two.next.or(Some(Box::new(ListNode::new(0)))).unwrap();
+
+                    res = Solution::make_node(one.val + two.val + res.1);
+
+                    now.next.get_or_insert(Box::new(res.0));
+                    curr = &mut now.next;
+                }
             }
         }
 
-        return None;
-    }
-
-    fn helper(
-        l1: Option<Box<ListNode>>,
-        l2: Option<Box<ListNode>>,
-        mut carry: i32,
-    ) -> (Option<Box<ListNode>>, i32) {
-        let val1 = match l1 {
-            Some(ref x) => x.val,
-            None => 0,
-        };
-        let val2 = match l2 {
-            Some(ref x) => x.val,
-            None => 0,
-        };
-        let mut sum = val1 + val2 + carry;
-        if sum >= 10 {
-            sum = sum % 10;
-            carry = 1;
+        if res.1 > 0 {
+            if let Some(now) = curr {
+                now.next.get_or_insert(Box::new(ListNode::new(res.1)));
+            }
         }
 
-        // check if sum and carry are not zero =) 
+        root.next
+    }
 
-        return (None, carry);
+    fn make_node(mut result: i32) -> (ListNode, i32) {
+        let single;
+        if result > 9 {
+            single = 1;
+            result = result - 10;
+        } else {
+            single = 0;
+        }
+        (ListNode::new(result), single)
     }
 }
-
 #[cfg(test)]
 mod test {
 
@@ -83,10 +76,10 @@ mod test {
             Some(Box::new(ListNode::new(1))),
         );
         let mut n = answer.unwrap();
-        assert_eq!(2, n.val);
+        assert_eq!(3, n.val);
 
         n = n.next.unwrap();
-        assert_eq!(3, n.val);
+        assert_eq!(1, n.val);
     }
 
     #[test]
@@ -140,43 +133,6 @@ mod test {
         assert_eq!(1, n.val);
     }
 
-    #[test]
-    fn empty_l2_lists_test() {
-        let answer = Solution::add_two_numbers(
-            Some(Box::new(ListNode {
-                val: 9,
-                next: Some(Box::new(ListNode::new(3))),
-            })),
-            None,
-        );
-        let mut n = answer.unwrap();
-        assert_eq!(9, n.val);
-
-        n = n.next.unwrap();
-        assert_eq!(3, n.val);
-    }
-
-    #[test]
-    fn empty_l1_lists_test() {
-        let answer = Solution::add_two_numbers(
-            None,
-            Some(Box::new(ListNode {
-                val: 9,
-                next: Some(Box::new(ListNode::new(3))),
-            })),
-        );
-        let mut n = answer.unwrap();
-        assert_eq!(9, n.val);
-
-        n = n.next.unwrap();
-        assert_eq!(3, n.val);
-    }
-
-    #[test]
-    fn both_empty_test() {
-        let answer = Solution::add_two_numbers(None, None);
-        assert!(answer.is_none());
-    }
 }
 
 fn main() {
