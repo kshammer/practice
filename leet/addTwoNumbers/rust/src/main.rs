@@ -21,26 +21,50 @@ impl Solution {
             return None;
         }
         let mut carry = 0;
-        let mut sum = 0;
-        let mut result = ListNode::new(0);
+
+        let first = Box::new(ListNode::new(0));
 
         while l1.is_some() || l2.is_some() {
             let val1 = match l1 {
-                Some(x) => x.val,
+                Some(ref x) => x.val,
                 None => 0,
             };
             let val2 = match l2 {
-                Some(x) => x.val,
+                Some(ref x) => x.val,
                 None => 0,
             };
-            sum = val1 + val2 + carry;
+            let mut sum = val1 + val2 + carry;
             if sum >= 10 {
-                sum = sum % 10; 
-                carry = 1; 
+                sum = sum % 10;
+                carry = 1;
             }
         }
 
         return None;
+    }
+
+    fn helper(
+        l1: Option<Box<ListNode>>,
+        l2: Option<Box<ListNode>>,
+        mut carry: i32,
+    ) -> (Option<Box<ListNode>>, i32) {
+        let val1 = match l1 {
+            Some(ref x) => x.val,
+            None => 0,
+        };
+        let val2 = match l2 {
+            Some(ref x) => x.val,
+            None => 0,
+        };
+        let mut sum = val1 + val2 + carry;
+        if sum >= 10 {
+            sum = sum % 10;
+            carry = 1;
+        }
+
+        // check if sum and carry are not zero =) 
+
+        return (None, carry);
     }
 }
 
