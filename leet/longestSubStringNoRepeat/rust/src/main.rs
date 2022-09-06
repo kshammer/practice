@@ -11,14 +11,16 @@ impl Solution {
             let next = char_vec[right + 1];
             println!("{:?}", curr);
             if curr.contains(&next) {
-                longest = if longest > char_vec[left..=right].len().try_into().unwrap() {
+                longest = if longest > (char_vec[left..=right].len() as i32){
                     longest
                 } else {
-                    char_vec[left..=right].len().try_into().unwrap()
+                    char_vec[left..=right].len() as i32
                 };
                 left += 1;
                 right = left;
-            }else{right+=1};
+            } else {
+                right += 1
+            };
         }
 
         longest
