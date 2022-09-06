@@ -21,13 +21,13 @@ impl Solution {
                 left += 1;
                 right = left;
             } else {
-                right += 1
+                right += 1;
+                longest = if longest > (char_vec[left..=right].len() as i32) {
+                    longest
+                } else {
+                    char_vec[left..=right].len() as i32
+                };
             };
-        }
-
-        if longest == 0 {
-            return char_vec.len() as i32;
-
         }
 
         longest
@@ -71,6 +71,12 @@ mod test {
     #[test]
     fn test_6() {
         let answer = Solution::length_of_longest_substring(String::from("auu"));
+        assert_eq!(2, answer);
+    }
+
+    #[test]
+    fn test_7() {
+        let answer = Solution::length_of_longest_substring(String::from("aab"));
         assert_eq!(2, answer);
     }
 }
