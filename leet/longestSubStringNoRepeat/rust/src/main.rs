@@ -6,12 +6,14 @@ impl Solution {
         let mut left = 0;
         let mut right = 0;
         let char_vec: Vec<char> = s.chars().collect();
-        while right + 1 != char_vec.len() {
+        if char_vec.len() < 1 {
+            return char_vec.len() as i32;
+        }
+        while right +1 != char_vec.len() {
             let curr = &char_vec[left..=right];
             let next = char_vec[right + 1];
-            println!("{:?}", curr);
             if curr.contains(&next) {
-                longest = if longest > (char_vec[left..=right].len() as i32){
+                longest = if longest > (char_vec[left..=right].len() as i32) {
                     longest
                 } else {
                     char_vec[left..=right].len() as i32
@@ -19,6 +21,7 @@ impl Solution {
                 left += 1;
                 right = left;
             } else {
+
                 right += 1
             };
         }
@@ -48,6 +51,18 @@ mod test {
     fn test_3() {
         let answer = Solution::length_of_longest_substring(String::from("pwwkew"));
         assert_eq!(3, answer);
+    }
+
+    #[test]
+    fn test_4() {
+        let answer = Solution::length_of_longest_substring(String::from(""));
+        assert_eq!(0, answer);
+    }
+
+    #[test]
+    fn test_5() {
+        let answer = Solution::length_of_longest_substring(String::from("au"));
+        assert_eq!(2, answer);
     }
 }
 
