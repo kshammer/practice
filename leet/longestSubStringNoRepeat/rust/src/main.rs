@@ -30,6 +30,10 @@ impl Solution {
             };
         }
 
+        if longest == 0 {
+            return char_vec.len() as i32;
+        }
+
         longest
     }
 }
@@ -78,6 +82,17 @@ mod test {
     fn test_7() {
         let answer = Solution::length_of_longest_substring(String::from("aab"));
         assert_eq!(2, answer);
+    }
+    #[test]
+    fn test_8() {
+        let answer = Solution::length_of_longest_substring(String::from(" "));
+        assert_eq!(1, answer);
+    }
+
+    #[test]
+    fn test_9() {
+        let answer = Solution::length_of_longest_substring(String::from("a"));
+        assert_eq!(1, answer);
     }
 }
 
