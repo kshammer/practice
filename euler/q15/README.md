@@ -1,1 +1,5 @@
-Question 15 was solvable via combinatorics so I never wrote a program for it =) 
+# Lattice Paths
+
+[Lattice Paths](https://projecteuler.net/problem=15)
+
+I was able to solve this combinatorics so I didn't write any programs for it
