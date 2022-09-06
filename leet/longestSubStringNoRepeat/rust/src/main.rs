@@ -9,7 +9,7 @@ impl Solution {
         if char_vec.len() < 1 {
             return char_vec.len() as i32;
         }
-        while right +1 != char_vec.len() {
+        while right + 1 != char_vec.len() {
             let curr = &char_vec[left..=right];
             let next = char_vec[right + 1];
             if curr.contains(&next) {
@@ -21,9 +21,13 @@ impl Solution {
                 left += 1;
                 right = left;
             } else {
-
                 right += 1
             };
+        }
+
+        if longest == 0 {
+            return char_vec.len() as i32;
+
         }
 
         longest
@@ -62,6 +66,11 @@ mod test {
     #[test]
     fn test_5() {
         let answer = Solution::length_of_longest_substring(String::from("au"));
+        assert_eq!(2, answer);
+    }
+    #[test]
+    fn test_6() {
+        let answer = Solution::length_of_longest_substring(String::from("auu"));
         assert_eq!(2, answer);
     }
 }
