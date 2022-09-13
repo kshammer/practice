@@ -9,14 +9,18 @@ impl Solution {
         let mut right = 0;
         let mut curr_val = 0;
         while index != iterations {
-            (curr_val, left, right) = Self::next(&nums1, &nums2, left, right);
+            let tup = Self::next(&nums1, &nums2, left, right);
+            curr_val = tup.0;
+            left = tup.1;
+            right = tup.2; 
             index += 1;
         }
-        if is_odd{
+        if is_odd {
+            println!("current {}", curr_val);
             return Self::next(&nums1, &nums2, left, right).0 as f64;
         } else {
             let ret = Self::next(&nums1, &nums2, left, right);
-            return ((ret.0 as f64) + (curr_val as f64)) / 2.0; 
+            return ((ret.0 as f64) + (curr_val as f64)) / 2.0;
         }
     }
 
