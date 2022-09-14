@@ -17,7 +17,13 @@ impl Solution {
         let mut j: i32;
 
         loop {
-            i = if (l + r) == 0 { 0} else if (l + r) == -1{ -1} else { (l + r) / 2 }; // A  
+            i = if (l + r) == 0 {
+                0
+            } else if (l + r) == -1 {
+                -1
+            } else {
+                (l + r) / 2
+            }; // A
 
             j = half - i - 2; // B
 
@@ -41,7 +47,6 @@ impl Solution {
                 }
             } else if a_left > b_right {
                 r = i - 1;
-                println!("r {}, l {}", r, l); 
             } else {
                 l = i + 1;
             }
