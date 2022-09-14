@@ -3,12 +3,15 @@ struct Solution;
 
 impl Solution {
     pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
-        let (mut a, mut b) = (nums1.clone(), nums2.clone());
         let total = nums1.len() as i32 + nums2.len() as i32;
         let half = total / 2;
-
-        if b.len() < a.len() {
-            (a, b) = (b, a);
+        let (a, b); 
+        if nums2.len() < nums1.len() {
+            b = nums1; 
+            a = nums2; 
+        } else {
+            a = nums1;
+            b = nums2;
         }
 
         let mut l = 0;
