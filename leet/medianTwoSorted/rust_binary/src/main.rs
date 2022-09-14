@@ -11,14 +11,15 @@ impl Solution {
             (a, b) = (b, a);
         }
 
-        let (mut l, mut r) = (0, a.len() as i32 - 1);
+        let mut l = 0;
+        let mut r = a.len() as i32 - 1;
         let mut i: i32;
         let mut j: i32;
 
         loop {
-            i = (l as i32 + r as i32) / 2; // A
-            j = half as i32 - i as i32 - 2; // B
-                                            //
+            i = if (l + r) == 0 { 0} else if (l + r) == -1{ -1} else { (l + r) / 2 }; // A  
+
+            j = half - i - 2; // B
 
             let a_left = if i >= 0 { a[i as usize] } else { i32::MIN };
             let a_right = if (i + 1) < a.len() as i32 {
@@ -40,6 +41,7 @@ impl Solution {
                 }
             } else if a_left > b_right {
                 r = i - 1;
+                println!("r {}, l {}", r, l); 
             } else {
                 l = i + 1;
             }
