@@ -9,7 +9,7 @@ impl Solution {
             x = x * -1;
         }
         let as_str = x.to_string().chars().rev().collect::<String>();
-        let mut cool = i32::from_str(&as_str).unwrap();
+        let mut cool = i32::from_str(&as_str).unwrap_or(0);
         if negative {
             cool = cool * -1; 
         } 
@@ -39,6 +39,12 @@ mod test {
     fn test_zero() {
         let answer = Solution::reverse(120);
         assert_eq!(21, answer);
+    }
+
+    #[test]
+    fn test_overflow() {
+        let answer = Solution::reverse(1534236469);
+        assert_eq!(0, answer);
     }
 }
 
