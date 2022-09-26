@@ -4,6 +4,7 @@ impl Solution {
     pub fn longest_palindrome(s: String) -> String {
         let chars: Vec<char> = s.chars().collect::<Vec<_>>();
         let longest = Self::helper(&chars); 
+        
         let mid_point:i32 = (chars.len() / 2) as i32; 
 
         return Self::helper(&chars); 
